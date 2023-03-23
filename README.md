@@ -39,7 +39,8 @@ Code.gs内のスクリプト上部にある変数を設定します。以下の�
 SlackAppのOAuth&PermissionsのBot User OAuth Tokenを設定
 
 ### 3.2 OPENAI_API_KEY
-OpenAIのAPI Keysを設定
+OpenAIのAPI Keysを設定<br>
+https://platform.openai.com/account/api-keys
 
 ### 3.3 SPREADSHEET_ID
 今作成しているGASのスプレッドシートのスプレッドシートIDを設定。<br>
@@ -79,12 +80,12 @@ ChatGPTボットにメンションすると回答してくれる機能
 GASの構成では限界あるので、しょうがないです。サーバー代は無料なので、許容してください。
 
 ## GPT3.5なの？
-はい。このボットは現在gpt-3.5-turboのモデルで動いています。
-https://platform.openai.com/docs/models/gpt-3-5
+はい。このボットは現在gpt-3.5-turboのモデルで動いています。<br>
+https://platform.openai.com/docs/models/gpt-3-5<br>
 
 ## GPT4は使えるの？
-使えません。制約があるので、導入していません。検討はしています。
-https://platform.openai.com/docs/models/gpt-4
+使えません。制約があるので、導入していません。検討はしています。<br>
+https://platform.openai.com/docs/models/gpt-4<br>
 
 ## 同じ質問をしても回答が変わるのはなぜ？
 仕様です。毎回同じ回答させることも可能ですが、少し変わるように設定しています。temperatureを0.3に設定しています。
