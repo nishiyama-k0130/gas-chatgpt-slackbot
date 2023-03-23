@@ -1,7 +1,7 @@
 const SLACK_ACCESS_TOKEN = 'xoxb-xxxxxx';// Slack Bot User OAuth Token
 const OPENAI_API_KEY = 'sk-xxxxxx';// OpenAPIから取得したAPI Key
 const SPREADSHEET_ID = 'xxxxxxx';// 実行ログを保存するスプレッドシートのID
-const BOT_USERID = 'Uxxxxxxx';// SLACK_ACCESS_TOKENのBotのUserId
+const SLACK_BOT_USERID = 'Uxxxxxxx';// SLACK_ACCESS_TOKENのBotのUserId
 
 /**
  * [手動実行用]
@@ -195,9 +195,9 @@ function generateChatGPTMessages(conversationHistory, prompt) {
     // promptに該当するメッセージはconversationHistoryに含まれているので、promptは追加しない
     conversationHistory.forEach(function (message) {
       let role = '';
-      if (message.user === BOT_USERID) {
+      if (message.user === SLACK_BOT_USERID) {
         role = 'assistant';
-      } else if (message.text.indexOf(`<@${BOT_USERID}>`) !== -1) {
+      } else if (message.text.indexOf(`<@${SLACK_BOT_USERID}>`) !== -1) {
         // Botにmentionしていない場合はスキップ
         role = 'user';
       }
@@ -207,9 +207,9 @@ function generateChatGPTMessages(conversationHistory, prompt) {
     });
   }
 
-  // メッセージ中からBOT_USERIDを削除
+  // メッセージ中からSLACK_BOT_USERIDを削除
   messages.forEach(function (message) {
-    message.content = message.content.replace(`<@${BOT_USERID}>`, '').trim();
+    message.content = message.content.replace(`<@${SLACK_BOT_USERID}>`, '').trim();
   });
 
   /**
