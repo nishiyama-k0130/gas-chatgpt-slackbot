@@ -39,7 +39,8 @@ Code.gs内のスクリプト上部にある変数を設定します。以下の�
 SlackAppのOAuth&PermissionsのBot User OAuth Tokenを設定
 
 ### 3.2 OPENAI_API_KEY
-OpenAIのAPI Keysを設定
+OpenAIのAPI Keysを設定<br>
+https://platform.openai.com/account/api-keys
 
 ### 3.3 SPREADSHEET_ID
 今作成しているGASのスプレッドシートのスプレッドシートIDを設定。<br>

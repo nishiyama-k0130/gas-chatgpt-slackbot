@@ -75,12 +75,12 @@ function doPost(e) {
     if (event.type === 'app_mention') {
       const scriptProperties = PropertiesService.getScriptProperties();
       const clientMsgId = event.client_msg_id;
-      scriptProperties.setProperty(clientMsgId, JSON.stringify(event));
       if (scriptProperties.getProperty(clientMsgId)) {
         log(
           `processEventで処理される前に、同じclientMsgIdで呼ばれました。メンション内容を変更したか、リトライされている可能性があり。 clientMsgId=${clientMsgId}`
         );
       }
+      scriptProperties.setProperty(clientMsgId, JSON.stringify(event));
       return ContentService.createTextOutput('Register Event.');
     }
   }
@@ -134,7 +134,7 @@ function usecase(event) {
     log(`Finish, user=${event.user}, ts=${event.ts}`);
   } catch (error) {
     log(error);
-    postSlackMessageInThread(channelId, `Error at asking ChatGPT, error=${error}`);
+    postSlackMessageInThread(channelId, `Error at asking ChatGPT, error=${error}`, event.ts);
   }
 }
 
@@ -391,7 +391,7 @@ function getUserNameById(userId) {
 function log(txt) {
   const spreadSheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheetName = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyyMM') + '_AppLog';
-  const sheet = spreadSheet.getSheetByName(sheetName);
+  let sheet = spreadSheet.getSheetByName(sheetName);
 
   if (!sheet) {
     sheet = spreadSheet.insertSheet(sheetName);
