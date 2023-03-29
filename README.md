@@ -4,7 +4,7 @@
 
 ## 1. GASを作成する
 ### 1.1 Google SpreadSheetを作成して、AppScriptを開きます<br>
-GAS上のコード(Code.gs)に、こちらのCode.jsの内容を貼り付けます。
+GAS上のコード(Code.gs)に、このリポジトリのCode.jsの内容を貼り付けます。
 
 ### 1.2 LibrariesにSlackAppを追加
 以下のScriptIDを使って追加してください。<br>
