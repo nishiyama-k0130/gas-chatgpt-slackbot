@@ -1,4 +1,5 @@
-# ChatGPTのSlackボットをGAS
+# ChatGPTのSlackボットをGASで実装
+ChatGPTのSlackBotをGoogle App Scriptで実装する方法です。
 
 <img width="530" alt="example-conversation" src="https://user-images.githubusercontent.com/67893773/228461298-60234fec-354d-4d8d-9ada-7a07d48b062b.png">
 
