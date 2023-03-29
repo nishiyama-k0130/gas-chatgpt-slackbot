@@ -326,6 +326,7 @@ function addUserUsageInSpreadSheet(userId, totalTokens) {
 
   // user idが存在する行を検索
   const lastRow = sheet.getLastRow();
+  const lastUsedTimeColumnNo = 1;
   const userIdColumnNo = 2;
   const totalUsedTokensColumnNo = 4;
   const totalUsedCountColumnNo = 5;
@@ -338,8 +339,10 @@ function addUserUsageInSpreadSheet(userId, totalTokens) {
   for (let i = 0; i < userIds.length; i++) {
     if (userIds[i][0] === userId) {
       // 既にUserが存在している場合は、Token数と回数を増やす
+      const lastUsedTimeRange = sheet.getRange(i + 2, lastUsedTimeColumnNo);
       const totalUsedTokensRange = sheet.getRange(i + 2, totalUsedTokensColumnNo);
       const totalUsedCountRange = sheet.getRange(i + 2, totalUsedCountColumnNo);
+      lastUsedTimeRange.setValue(now);
       totalUsedTokensRange.setValue(totalUsedTokensRange.getValue() + totalTokens);
       totalUsedCountRange.setValue(totalUsedCountRange.getValue() + 1);
       found = true;
