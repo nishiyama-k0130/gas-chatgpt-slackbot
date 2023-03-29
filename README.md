@@ -1,22 +1,25 @@
-# ChatGPTのボットをGASで作る方法
+# ChatGPTのSlackボットをGAS
+
+<img width="530" alt="example-conversation" src="https://user-images.githubusercontent.com/67893773/228461298-60234fec-354d-4d8d-9ada-7a07d48b062b.png">
 
 ## 1. GASを作成する
-### 1.1 Spreadsheetを作成して、AppScriptを作成<br>
-GAS上のコード(Code.gs)に、こちらのCode.jsの内容を貼り付けます。
+### 1.1 Google SpreadSheetを作成して、AppScriptを開きます<br>
+GAS上のコード(Code.gs)に、このリポジトリのCode.jsの内容を貼り付けます。
 
 ### 1.2 LibrariesにSlackAppを追加
-以下のScriptIDで追加してください。
+以下のScriptIDを使って追加してください。<br>
 ```ScriptID：1on93YOYfSmV92R5q59NpKmsyWIQD8qnoLYk-gkQBI92C58SPyA2x1-bq```
 
-### 1.3 New DeploymentでDeployします。
-Web Appで新規デプロイしてください。Who has accessはAnyoneです。<br>
-デプロイしたらWeb AppのURLが発行されるので、コピーして控えておいてください。Manage DeploymentsからもURLは確認できます。<br>
-後のSlackのEvent Subscriptionの設定で使います。
+### 1.3 新規デプロイ
+ウェブアプリで新規デプロイしてください。「アクセス権」は「誰でも」です。<br>
+デプロイしたら、ウェブアプリのURLが発行されるので、後のSlackのEvent Subscriptionの設定で使うので、控えておいてください。<br>
+「デプロイを管理」からでも後で、URLは確認できます。<br>
+
 
 ## 2. SlackのAppの設定をします。
-以下の項目を設定してSlackのAppを作成してください。
+以下の項目を設定してSlackのAppを作成してください。Slackのボットの作成の仕方はここでは細かく説明しません。
 ### 2.1 OAuth & Permissions
-以下のBot TokenScopesを設定してください
+以下のBot TokenScopesを設定してください。SlackのAPIを呼び出すための権限です。
 - app_mentions:read
 - chat:write
 - users:read
@@ -27,13 +30,17 @@ Web Appで新規デプロイしてください。Who has accessはAnyoneです�
 
 ### 2.2 Event Subscriptionsの設定
 有効にして、RequestURLに1.3で取得したURLを貼り付けてください。Verifiedにならないと問題があります。<br>
-GASのWeb Appが正常にデプロイされていない可能性があります。
-
-### 2.3 Subscribe to bot events
-app_mentionを追加してください
+GASのWeb Appが正常にデプロイされていない可能性があります。<br>
+その後、ボットへのメンションを受信するために「Subscribe to bot events」に[app_mention]を追加してください。
 
 ## 3. スクリプトの変数の設定
 Code.gs内のスクリプト上部にある変数を設定します。以下の手順で取得して設定してコードを保存してください。
+```
+const SLACK_ACCESS_TOKEN = 'xoxb-xxxxxx';// Slack Bot User OAuth Token
+const OPENAI_API_KEY = 'sk-xxxxxx';// OpenAPIから取得したAPI Key
+const SPREADSHEET_ID = 'xxxxxxx';// 実行ログを保存するスプレッドシートのID
+const SLACK_BOT_USERID = 'Uxxxxxxx';// SLACK_ACCESS_TOKENのBotのUserId
+```
 
 ### 3.1 SLACK_ACCESS_TOKEN
 SlackAppのOAuth&PermissionsのBot User OAuth Tokenを設定
@@ -44,22 +51,26 @@ https://platform.openai.com/account/api-keys
 
 ### 3.3 SPREADSHEET_ID
 今作成しているGASのスプレッドシートのスプレッドシートIDを設定。<br>
-URLのhttps://docs.google.com/spreadsheets/d/{この部分}。
+スプレッドシートのURLのhttps://docs.google.com/spreadsheets/d/{この部分}。
 
 ### 3.4 SLACK_BOT_USERID
-GASでsearchSlackUserIdの関数を手動で実行してください。<br>
+GASのWEBコンソール上でsearchSlackUserId関数を手動で実行してください。<br>
 コンソールにボットのユーザーIDが表示されます。それを設定してください。
 
 ## 4. トリガーの設定
-GAS上でcreateMinuteTriggers関数を手動で実行してください。<br>
+GASのWEBコンソール上ででcreateMinuteTriggers関数を手動で実行してください。<br>
 自動でスケジューラー用のトリガーが作成されます。
 
 ## 5 使ってみる
 ### 5.1 Slackのチャンネルにアプリを入れる
-Slackアプリが正常に作成できていたら、チャンネルに招待することができると思います。
+Slackアプリが正常に作成できていたら、チャンネルにボットを招待することができると思います。
 
 ### 5.2 ボットにメンションしてみる
 では、あながた作ったボットにメンションしてみてください。返事がきたら成功です！
+<img width="347" alt="hello-bot" src="https://user-images.githubusercontent.com/67893773/228464957-640d93e5-330b-475e-a928-383721402d40.png">
+
+もしうまくいかない場合には、GASのログや、SpreadSheetに表示されているログを見ていきましょう。
+
 
 # 機能
 ## 1. ChatGPTボットに聞ける
@@ -71,6 +82,10 @@ ChatGPTボットにメンションすると回答してくれる機能
 ## 3. 利用履歴ログ
 利用履歴はスプレッドシートに保存されています。ただし、本文は保存していません。<br>
 誰がいつ、何回、どのくらいの量を使ったのかを記録しています。
+
+# 全体アーキテクチャー
+![architecture](https://user-images.githubusercontent.com/67893773/228460737-21fe04d9-7977-40c4-9fa1-20586639052c.png)
+
 
 # Q&A
 ## いつ返事が来るの？
