@@ -50,6 +50,51 @@ function deleteAllTriggers() {
 }
 
 /**
+ * [手動実行用]
+ * ChatGPIのAPI Keyが有効かどうかチェックする関数。メインの処理では使用しない。
+ * {@link https://help.openai.com/en/articles/6891839-api-error-code-guidance}
+ */
+function checkChatGPTApiKey() {
+  var url = "https://api.openai.com/v1/completions";
+
+  var headers = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + OPENAI_API_KEY
+  };
+
+  var data = {
+    "model": "text-davinci-003",
+    "prompt": "ChatGPT test prompt",
+    "max_tokens": 5,
+    "temperature": 0
+  };
+
+  var options = {
+    "method": "post",
+    "headers": headers,
+    "payload": JSON.stringify(data),
+    "muteHttpExceptions": true
+  };
+
+  try {
+    var response = UrlFetchApp.fetch(url, options);
+    var responseCode = response.getResponseCode();
+
+    if (responseCode === 200) {
+      Logger.log("API Key is valid.");
+      return true;
+    } else {
+      Logger.log("API Key is not valid. Response code: " + responseCode);
+      return false;
+    }
+  } catch (error) {
+    Logger.log("Error: " + error);
+    return false;
+  }
+}
+
+
+/**
  * SlackからのEventリクエストを受け付けるエンドポイント
  * Slackには3秒以内に200を返さないとリトライされる制約があるので、
  * パラメーターはスクリプトプロパティ（ほぼグローバル変数）に保存しておいて、先にSlackに200を返す。
